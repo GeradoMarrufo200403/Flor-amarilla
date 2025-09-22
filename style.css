@@ -5,8 +5,9 @@ body, html {
     width: 100%;
     height: 100%;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #FFF8DC, #FFECB3); /* Un fondo suave como un amanecer */
-    overflow: hidden; /* Evita barras de scroll por el confeti */
+    background: linear-gradient(135deg, #FFF8DC, #FFECB3);
+    overflow: hidden;
+    position: relative;
 }
 
 /* Contenedor principal para centrar todo */
@@ -17,35 +18,36 @@ body, html {
     height: 100%;
     flex-direction: column;
     text-align: center;
+    padding-bottom: 100px;
+    box-sizing: border-box;
 }
 
-/* Estilo del botón de sorpresa */
+/* Estilo del botón de texto original */
 #surpriseButton {
     padding: 18px 45px;
-    font-family: 'Caveat', cursive; /* Usamos la misma fuente bonita del mensaje */
-    font-size: 32px; /* La hacemos más grande para que luzca */
-    color: #5D4037; /* Un color café oscuro para el texto */
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8); /* Sombra de texto sutil */
-    background: linear-gradient(45deg, #FFEB3B, #FFC107); /* Un gradiente para más profundidad */
+    font-family: 'Caveat', cursive;
+    font-size: 32px;
+    color: #5D4037;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    background: linear-gradient(45deg, #FFEB3B, #FFC107);
     border: none;
-    border-bottom: 5px solid #E6A200; /* Borde inferior para un efecto 3D */
-    border-radius: 60px; /* Un poco más redondeado */
+    border-bottom: 5px solid #E6A200;
+    border-radius: 60px;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s ease; /* Transición más suave para todos los cambios */
+    transition: all 0.2s ease;
 }
-
 #surpriseButton:hover {
-    transform: translateY(-3px); /* Se eleva un poco al pasar el mouse */
+    transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(45deg, #FFF176, #FFCA28); /* El gradiente se hace más brillante */
+    background: linear-gradient(45deg, #FFF176, #FFCA28);
 }
-
 #surpriseButton:active {
-    transform: translateY(2px); /* Se presiona hacia abajo al hacer clic */
+    transform: translateY(2px);
     border-bottom: 2px solid #E6A200;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
+
 /* Clase para ocultar elementos */
 .hidden {
     display: none;
@@ -62,63 +64,99 @@ body, html {
     margin-bottom: 20px;
     animation: fadeInDown 1s ease-out forwards;
 }
-
 .message-box p {
     margin: 0;
-    font-family: 'Caveat', cursive; /* La fuente bonita que importamos */
-    font-size: 2.2rem; /* Tamaño de letra grande y legible */
+    font-family: 'Caveat', cursive;
+    font-size: 2.2rem;
     color: #5D4037;
     line-height: 1.5;
 }
 
-/* Estilo de la imagen de la flor */
+/* Estilo de la imagen de la flor principal */
 .flower-image {
     max-width: 250px;
     width: 80%;
-    animation: zoomIn 1s ease-out 0.5s forwards; /* Aparece con zoom y un pequeño retraso */
-    opacity: 0; /* Inicia invisible para la animación */
+    cursor: pointer;
+    animation: zoomIn 1s ease-out 0.5s forwards;
+    opacity: 0;
+    transform-origin: bottom center;
+    transition: transform 0.1s ease-out;
+    z-index: 10;
+}
+.flower-image.clicked {
+    animation: bounce 0.3s ease-out;
 }
 
-/* Canvas para el confeti, posicionado detrás de todo */
+/* Contenedor para las flores pequeñas */
+#smallFlowersContainer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    pointer-events: none;
+    z-index: 20;
+}
+
+/* Estilo de las flores pequeñas que brotan */
+.small-flower {
+    width: 50px;
+    height: 50px;
+    animation: fadeInGrowUp 1.2s ease-out forwards;
+    opacity: 0;
+    position: absolute;
+}
+
+/* Footer con la imagen de tierra */
+.pixel-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-image: url('tierra.jpg');
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+    z-index: 15;
+    animation: slideUp 1s ease-out forwards;
+}
+
 #confetti-canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Lo pone en el fondo */
+    z-index: -1;
 }
 
-/* Animaciones */
-@keyframes fadeInDown {
+/* === ANIMACIONES === */
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes zoomIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+@keyframes bounce { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes fadeInGrowUp {
     from {
         opacity: 0;
-        transform: translateY(-50px);
+        transform: translateY(50px) scale(0.5);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
-@keyframes zoomIn {
-    from {
-        opacity: 0;
-        transform: scale(0.5);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-/* Media Query para pantallas pequeñas (como celulares en vertical) */
+/* === RESPONSIVIDAD === */
 @media (max-width: 480px) {
-    .message-box p {
-        font-size: 1.8rem; /* Hacemos la letra un poco más pequeña */
-    }
-
-    #surpriseButton {
-        padding: 15px 30px; /* Reducimos un poco el botón */
-        font-size: 20px;
+    #surpriseButton { padding: 12px 25px; font-size: 24px; }
+    .message-box { padding: 20px; margin-left: 10px; margin-right: 10px; }
+    .message-box p { font-size: 1.6rem; }
+    .flower-image { max-width: 180px; width: 70%; }
+    #smallFlowersContainer { height: 80px; }
+    .small-flower { width: 40px; height: 40px; }
+    .pixel-footer { height: 80px; }
+    @keyframes fadeInGrowUp {
+        from { transform: translateY(40px) scale(0.5); }
+        to { transform: translateY(0) scale(1); }
     }
 }
