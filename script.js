@@ -1,37 +1,40 @@
 // Espera a que todo el contenido de la página se cargue
 document.addEventListener('DOMContentLoaded', () => {
     
-    // Obtiene los elementos del HTML por su ID
     const surpriseButton = document.getElementById('surpriseButton');
     const surpriseContent = document.getElementById('surpriseContent');
-    const confettiCanvas = document.getElementById('confetti-canvas');
-    
-    // Configura el confeti para que use el canvas que creamos
-    const myConfetti = confetti.create(confettiCanvas, {
-        resize: true,
-        useWorker: true
-    });
 
-    // Esta función lanza el confeti de forma espectacular
-    function launchConfetti() {
-        // Lanza un chorro de confeti desde varias posiciones
-        myConfetti({
-            particleCount: 150,
-            spread: 180,
-            origin: { y: 0.6 }
-        });
+    // Función para la explosión de confeti
+    function partyTime() {
+        const duration = 5 * 1000; // La celebración dura 5 segundos
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
-        myConfetti({
-            particleCount: 100,
-            spread: 120,
-            origin: { x: 0, y: 1 }
-        });
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
 
-        myConfetti({
-            particleCount: 100,
-            spread: 120,
-            origin: { x: 1, y: 1 }
-        });
+        const interval = setInterval(function() {
+            const timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+
+            const particleCount = 50 * (timeLeft / duration);
+            // Lanza confeti desde ambos lados de la pantalla
+            confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+            confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+        }, 250);
+
+        // Un último estallido para el final
+        setTimeout(() => {
+            confetti({
+                particleCount: 200,
+                spread: 180,
+                origin: { y: 0.6 }
+            });
+        }, 1000);
     }
 
     // Escucha el evento "click" en el botón
@@ -39,13 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // 1. Oculta el botón
         surpriseButton.classList.add('hidden');
         
-        // 2. Muestra el contenido de la sorpresa (el mensaje y la flor)
+        // 2. Muestra el contenido de la sorpresa
         surpriseContent.classList.remove('hidden');
 
-        // 3. ¡Lanza el confeti!
-        launchConfetti();
-        
-        // Opcional: sigue lanzando confeti cada cierto tiempo para un efecto continuo
-        setInterval(launchConfetti, 3000); 
+        // 3. ¡Lanza la fiesta de confeti!
+        partyTime();
     });
 });
