@@ -26,22 +26,31 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { confetti({ particleCount: 200, spread: 180, origin: { y: 0.6 } }); }, 1000);
     }
 
-    // Función para crear flores pequeñas (con altura aleatoria CORREGIDA)
+    // Función para crear flores pequeñas (CON LÓGICA RESPONSIVA)
     function createSmallFlower() {
         const flower = document.createElement('img');
         flower.src = 'FlowerYellow.webp';
         flower.classList.add('small-flower');
 
-        const flowerWidth = 50;
-        const containerWidth = window.innerWidth;
-        const randomX = Math.random() * (containerWidth - flowerWidth); 
-        flower.style.left = `${randomX}px`;
+        // --- CORRECCIÓN CLAVE PARA MÓVILES ---
+        let flowerWidth, randomBottom;
+        const isMobile = window.innerWidth <= 480;
 
-        // --- CORRECCIÓN CLAVE: Rango de altura ajustado para el pasto verde ---
-        // El footer mide 100px. El pasto verde está aproximadamente entre los 50px y 95px desde abajo.
-        // Este nuevo cálculo posicionará la base de la flor aleatoriamente DENTRO de esa franja verde.
-        const randomBottom = Math.random() * (95 - 50) + 50; // Rango entre 50px y 95px
-        flower.style.bottom = `${randomBottom}px`; 
+        if (isMobile) {
+            // Si es móvil, usamos valores para un footer de 80px
+            flowerWidth = 40; // Ancho de la flor en móvil
+            // En un footer de 80px, el pasto está entre 40px y 75px aprox.
+            randomBottom = Math.random() * (75 - 40) + 40; 
+        } else {
+            // Si es escritorio, usamos los valores originales para un footer de 100px
+            flowerWidth = 50; // Ancho de la flor en escritorio
+            // En un footer de 100px, el pasto está entre 50px y 95px
+            randomBottom = Math.random() * (95 - 50) + 50;
+        }
+        
+        const randomX = Math.random() * (window.innerWidth - flowerWidth); 
+        flower.style.left = `${randomX}px`;
+        flower.style.bottom = `${randomBottom}px`;
 
         smallFlowersContainer.appendChild(flower);
     }
