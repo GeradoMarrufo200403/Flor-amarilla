@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Flor amarilla — Un detalle virtual</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#FFD54A; /* amarillo */
+      --text:#e6eef8;
+      --glass: rgba(255,255,255,0.04);
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{background:linear-gradient(180deg,var(--bg),#07101a);display:flex;align-items:center;justify-content:center;color:var(--text);padding:24px}
+    .card{width:920px;max-width:100%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:18px;padding:28px;box-shadow:0 10px 30px rgba(2,6,23,0.6);display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:center}
+    .left{display:flex;flex-direction:column;gap:16px;align-items:center}
+    h1{margin:0;font-size:1.5rem}
+    p.lead{margin:0;color:rgba(230,238,248,0.8)}
+
+    /* Flower area */
+    .flower-wrap{width:420px;height:420px;display:flex;align-items:center;justify-content:center;position:relative}
+    svg{width:360px;height:360px;overflow:visible}
+
+    /* Controls */
+    .controls{display:flex;flex-direction:column;gap:12px;padding:8px}
+    .controls label{font-size:0.85rem;color:rgba(230,238,248,0.9)}
+    .input, .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.03);padding:10px;border-radius:10px;color:var(--text);outline:none}
+    .btn{cursor:pointer;text-align:center}
+    .btn.positive{background:linear-gradient(90deg,#fff2cc,#fff6e0);color:#1a1a1a;font-weight:600}
+
+    /* Right column card */
+    .right{display:flex;flex-direction:column;gap:12px}
+    .note{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px}
+
+    /* small animation helpers */
+    .petal{transform-origin:50% 100%;transition:transform 450ms cubic-bezier(.2,.9,.2,1)}
+    .center{transition:transform 450ms cubic-bezier(.2,.9,.2,1)}
+
+    .bloom .petal{transform:scale(1.08) rotate(0)}
+    .bloom .center{transform:scale(1.02)}
+
+    /* heart pulse */
+    .heart{position:absolute;inset:auto;right:18px;top:18px;font-size:18px;opacity:0.95}
+
+    /* small responsive */
+    @media (max-width:880px){.card{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="left">
+      <h1>Una flor amarilla, para ti 🌼</h1>
+      <p class="lead">Haz click en la flor para enviar una sorpresa. Puedes personalizar el mensaje y luego compartir el archivo HTML o subirlo a Netlify/GitHub Pages para enviarlo por link.</p>
+
+      <div class="flower-wrap" id="flowerWrap" title="Haz click para enviar">
+        <!-- SVG de la flor: pétalos y centro interactivos -->
+        <svg viewBox="0 0 200 200" id="flowerSvg" role="img" aria-label="Flor amarilla">
+          <defs>
+            <radialGradient id="gCenter" cx="50%" cy="35%">
+              <stop offset="0%" stop-color="#FFF7E6" />
+              <stop offset="100%" stop-color="#F4C542" />
+            </radialGradient>
+            <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2" />
+            </filter>
+          </defs>
+
+          <!-- Stem -->
+          <g transform="translate(100,120)">
+            <rect x="-3" y="0" width="6" height="60" rx="3" fill="#2E7D32" opacity="0.95"></rect>
+            <path d="M -3 40 q -18 -12 -35 -6" stroke="#2E7D32" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
+          </g>
+
+          <!-- Petals: 8 petals rotated -->
+          <g id="petals" transform="translate(100,80)">
+            <!-- we'll create petals with transform rotate to distribute them -->
+            <!-- petal template -->
+            <g class="petal" id="petal0" transform="rotate(0)">
+              <path d="M0 -6 C 24 -34 36 -34 40 -6 C 36 22 22 36 0 36 C -22 36 -36 22 -40 -6 C -36 -34 -24 -34 0 -6 Z" fill="#FFD54A" stroke="#e6b73a" stroke-width="1"/>
+            </g>
+            <g class="petal" id="petal1" transform="rotate(45)">
+              <use href="#petal0"/>
+            </g>
+            <g class="petal" id="petal2" transform="rotate(90)">
+              <use href="#petal0"/>
+            </g>
+            <g class="petal" id="petal3" transform="rotate(135)">
+              <use href="#petal0"/>
+            </g>
+            <g class="petal" id="petal4" transform="rotate(180)">
+              <use href="#petal0"/>
+            </g>
+            <g class="petal" id="petal5" transform="rotate(225)">
+              <use href="#petal0"/>
+            </g>
+            <g class="petal" id="petal6" transform="rotate(270)">
+              <use href="#petal0"/>
+            </g>
+            <g class="petal" id="petal7" transform="rotate(315)">
+              <use href="#petal0"/>
+            </g>
+
+            <!-- centro -->
+            <g class="center" id="centerG">
+              <circle r="22" fill="url(#gCenter)" stroke="#c88f26" stroke-width="1" filter="url(#soft)"/>
+            </g>
+          </g>
+        </svg>
+
+        <div class="heart" id="heart">💛</div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:center;margin-top:6px">
+        <button class="btn positive" id="sendBtn">Enviar sorpresa</button>
+        <button class="btn" id="bloomBtn">Abrir/Cerrar</button>
+      </div>
+
+      <div style="margin-top:8px;font-size:0.85rem;color:rgba(230,238,248,0.75)">Consejo: guarda este archivo como <code>flor_amarilla.html</code> y súbelo a tu servicio favorito para compartir (GitHub Pages, Netlify Drop, Vercel, etc.).</div>
+    </div>
+
+    <div class="right">
+      <div class="note">
+        <label for="message">Mensaje (se mostrará al receptor)</label>
+        <textarea id="message" class="input" rows="4">Para ti, con cariño 💛</textarea>
+      </div>
+
+      <div class="note">
+        <label>Opciones de interacción</label>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+          <div style="display:flex;gap:8px">
+            <button class="btn" id="confettiBtn">Lanzar confetti</button>
+            <button class="btn" id="petalFallBtn">Hacer caer pétalos</button>
+          </div>
+          <div style="font-size:0.85rem;color:rgba(230,238,248,0.8)">Puedes personalizar el texto y pulsar <strong>Enviar sorpresa</strong>. Se mostrará una animación y el mensaje.</div>
+        </div>
+      </div>
+
+      <div class="note">
+        <label>Cómo compartir</label>
+        <ol style="margin:8px 0 0 18px;color:rgba(230,238,248,0.85)">
+          <li>Guarda el archivo (Archivo &gt; Guardar como) como <code>flor_amarilla.html</code>.</li>
+          <li>Abrirlo localmente (arrastrar al navegador) o subirlo a GitHub Pages / Netlify Drop / Vercel para obtener un link público.</li>
+          <li>Envía el link por mensaje y la persona podrá ver la flor y tu mensaje.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Interactividad: bloom, send, confetti, petal fall
+    const card = document.getElementById('card');
+    const flowerWrap = document.getElementById('flowerWrap');
+    const petals = document.querySelectorAll('.petal');
+    const centerG = document.getElementById('centerG');
+    const sendBtn = document.getElementById('sendBtn');
+    const bloomBtn = document.getElementById('bloomBtn');
+    const confettiBtn = document.getElementById('confettiBtn');
+    const petalFallBtn = document.getElementById('petalFallBtn');
+    const messageEl = document.getElementById('message');
+
+    let isBloom = false;
+
+    function setBloom(on){
+      isBloom = !!on;
+      if(isBloom) card.classList.add('bloom'); else card.classList.remove('bloom');
+    }
+
+    flowerWrap.addEventListener('mouseenter', ()=> setBloom(true));
+    flowerWrap.addEventListener('mouseleave', ()=> setBloom(false));
+
+    bloomBtn.addEventListener('click', ()=> setBloom(!isBloom));
+
+    // Sencilla animación: al enviar, mostrar modal con mensaje y lanzar confetti
+    sendBtn.addEventListener('click', ()=>{
+      showMessageModal(messageEl.value || 'Para ti');
+      launchConfetti();
+    });
+
+    // Confetti simple usando canvas creado dinámicamente
+    function launchConfetti(){
+      // small lightweight confetti implementation
+      const canvas = document.createElement('canvas');
+      canvas.style.position='fixed';canvas.style.left=0;canvas.style.top=0;canvas.style.width='100%';canvas.style.height='100%';canvas.style.pointerEvents='none';canvas.width = innerWidth; canvas.height = innerHeight;
+      document.body.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      const pieces = [];
+      const colors = ['#FFD54A','#FFF176','#FFECB3','#FFE082'];
+      for(let i=0;i<80;i++) pieces.push({x:Math.random()*canvas.width,y:-20+Math.random()*40,w:6+hRandom(6),h:6+hRandom(6),vx:(Math.random()-0.5)*4,vy:Math.random()*3+2,color:colors[i%colors.length],rot:Math.random()*360,vr:Math.random()*6-3});
+      let t=0;
+      function frame(){
+        t+=1; ctx.clearRect(0,0,canvas.width,canvas.height);
+        for(const p of pieces){
+          p.x += p.vx; p.y += p.vy; p.vy += 0.06; p.rot += p.vr;
+          ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+          ctx.fillStyle = p.color; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+          ctx.restore();
+        }
+        if(t<180) requestAnimationFrame(frame); else canvas.remove();
+      }
+      requestAnimationFrame(frame);
+    }
+    function hRandom(n){return Math.random()*n}
+
+    // Petal fall: clone petals and animate them falling
+    petalFallBtn.addEventListener('click', ()=>{
+      const container = document.createElement('div');
+      container.style.position='fixed';container.style.left=0;container.style.top=0;container.style.width='100%';container.style.height='100%';container.style.pointerEvents='none';document.body.appendChild(container);
+      for(let i=0;i<30;i++){
+        const el = document.createElement('div');
+        el.textContent='🌼';
+        el.style.position='absolute';
+        el.style.left = (50+Math.random()*40 - Math.random()*80) + '%';
+        el.style.top = (Math.random()*10) + '%';
+        el.style.fontSize = (12 + Math.random()*36) + 'px';
+        el.style.opacity = Math.random()*0.9 + 0.1;
+        el.style.transform = 'rotate('+(Math.random()*360)+'deg)';
+        container.appendChild(el);
+        animateFall(el);
+      }
+      setTimeout(()=>container.remove(),4200);
+    });
+
+    function animateFall(el){
+      const duration = 3200 + Math.random()*1600;
+      const px = (Math.random()*40 - 20);
+      el.animate([
+        {transform: el.style.transform + ' translateY(0px)', opacity:1},
+        {transform: el.style.transform + ' translateY(820px) rotate('+ (Math.random()*720 - 360) +'deg)', opacity:0.2}
+      ],{duration,iterations:1,easing:'cubic-bezier(.2,.9,.2,1)'});
+    }
+
+    // Simple modal to show message
+    function showMessageModal(text){
+      const modal = document.createElement('div');
+      modal.style.position='fixed';modal.style.left=0;modal.style.top=0;modal.style.width='100%';modal.style.height='100%';modal.style.display='flex';modal.style.alignItems='center';modal.style.justifyContent='center';modal.style.background='rgba(0,0,0,0.45)';modal.style.zIndex=9999;
+      const card = document.createElement('div');
+      card.style.background='#07202a';card.style.padding='24px';card.style.borderRadius='14px';card.style.maxWidth='420px';card.style.textAlign='center';card.style.boxShadow='0 10px 30px rgba(0,0,0,0.6)';
+      const t = document.createElement('div'); t.style.color='#fff'; t.style.fontSize='1.15rem'; t.style.marginBottom='12px'; t.textContent = text;
+      const btn = document.createElement('button'); btn.textContent='Cerrar'; btn.className='btn'; btn.style.marginTop='8px'; btn.addEventListener('click', ()=> modal.remove());
+      card.appendChild(t); card.appendChild(btn); modal.appendChild(card); document.body.appendChild(modal);
+    }
+
+    // Accessibility: enter/space on flower triggers send
+    flowerWrap.addEventListener('click', ()=>{ sendBtn.click(); });
+    flowerWrap.setAttribute('tabindex','0');
+    flowerWrap.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); sendBtn.click(); } });
+
+    // initial small bounce animation
+    requestAnimationFrame(()=>{
+      card.classList.add('bloom'); setTimeout(()=>card.classList.remove('bloom'),900);
+    });
+
+  </script>
+</body>
+</html>
