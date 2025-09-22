@@ -26,25 +26,20 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { confetti({ particleCount: 200, spread: 180, origin: { y: 0.6 } }); }, 1000);
     }
 
-    // Función para crear flores pequeñas (CON LÓGICA RESPONSIVA)
+    // Función para crear flores pequeñas (con lógica responsiva)
     function createSmallFlower() {
         const flower = document.createElement('img');
         flower.src = 'FlowerYellow.webp';
         flower.classList.add('small-flower');
 
-        // --- CORRECCIÓN CLAVE PARA MÓVILES ---
         let flowerWidth, randomBottom;
         const isMobile = window.innerWidth <= 480;
 
         if (isMobile) {
-            // Si es móvil, usamos valores para un footer de 80px
-            flowerWidth = 40; // Ancho de la flor en móvil
-            // En un footer de 80px, el pasto está entre 40px y 75px aprox.
+            flowerWidth = 40;
             randomBottom = Math.random() * (75 - 40) + 40; 
         } else {
-            // Si es escritorio, usamos los valores originales para un footer de 100px
-            flowerWidth = 50; // Ancho de la flor en escritorio
-            // En un footer de 100px, el pasto está entre 50px y 95px
+            flowerWidth = 50;
             randomBottom = Math.random() * (95 - 50) + 50;
         }
         
@@ -63,8 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
         partyTime();
     });
 
-    // Evento para la flor principal (con la lógica de contador y reinicio)
-    mainFlower.addEventListener('click', () => {
+    // --- CORRECCIÓN CLAVE PARA COMPATIBILIDAD MÓVIL ---
+    // 1. Creamos una función separada para manejar la interacción con la flor.
+    function handleFlowerInteraction(event) {
+        // Prevenimos comportamientos extraños en móviles, como zoom o doble evento.
+        event.preventDefault();
+
         mainFlower.classList.add('clicked');
 
         flowerClickCounter++;
@@ -82,5 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
         mainFlower.addEventListener('animationend', () => {
             mainFlower.classList.remove('clicked');
         }, { once: true });
-    });
+    }
+
+    // 2. Asignamos esa misma función a AMBOS eventos: 'click' (para escritorio) y 'touchstart' (para móviles).
+    mainFlower.addEventListener('click', handleFlowerInteraction);
+    mainFlower.addEventListener('touchstart', handleFlowerInteraction);
 });
