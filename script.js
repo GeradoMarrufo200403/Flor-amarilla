@@ -26,21 +26,26 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { confetti({ particleCount: 200, spread: 180, origin: { y: 0.6 } }); }, 1000);
     }
 
-    // --- LÓGICA COMPLETAMENTE REESCRITA Y SIMPLIFICADA ---
+    // Función para crear flores pequeñas
     function createSmallFlower() {
         const flower = document.createElement('img');
         flower.src = 'FlowerYellow.webp';
         flower.classList.add('small-flower');
 
-        // Ya no necesitamos comprobar si es móvil. Usamos porcentajes para que sea 100% responsivo.
-        // Posición horizontal aleatoria entre el 5% y 95% del ancho de la pantalla.
-        const randomXPercent = Math.random() * 90 + 5;
-        
-        // Altura aleatoria entre el 50% y 95% del contenedor. Esto las sitúa SIEMPRE en la franja verde del pasto.
-        const randomBottomPercent = Math.random() * (95 - 50) + 50;
+        let flowerWidth, randomBottom;
+        const isMobile = window.innerWidth <= 480;
 
-        flower.style.left = `${randomXPercent}%`;
-        flower.style.bottom = `${randomBottomPercent}%`;
+        if (isMobile) {
+            flowerWidth = 40;
+            randomBottom = Math.random() * (75 - 40) + 40; 
+        } else {
+            flowerWidth = 50;
+            randomBottom = Math.random() * (95 - 50) + 50;
+        }
+        
+        const randomX = Math.random() * (window.innerWidth - flowerWidth); 
+        flower.style.left = `${randomX}px`;
+        flower.style.bottom = `${randomBottom}px`;
 
         smallFlowersContainer.appendChild(flower);
     }
@@ -53,10 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
         partyTime();
     });
 
-    // Evento para la flor principal (con la lógica de contador y reinicio)
-    // Se ha simplificado para usar una sola función manejadora para ambos eventos
+    // Función que maneja la interacción con la flor principal
     function handleFlowerInteraction(event) {
-        event.preventDefault(); // Previene comportamientos extraños en móviles
+        // --- LÍNEA DE PRUEBA ---
+        // Esta alerta nos dirá si el toque está siendo detectado en el móvil.
+        alert("¡Toque detectado en móvil!"); 
+        // ----------------------
+
+        event.preventDefault();
 
         mainFlower.classList.add('clicked');
         flowerClickCounter++;
@@ -76,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     }
 
+    // Asignamos la misma función a AMBOS eventos para máxima compatibilidad
     mainFlower.addEventListener('click', handleFlowerInteraction);
     mainFlower.addEventListener('touchstart', handleFlowerInteraction);
 });
