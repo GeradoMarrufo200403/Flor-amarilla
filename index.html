@@ -1,28 +1,118 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🌼 Detalle Profesional de Flor Amarilla</title>
-  <!-- Google Font elegante -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+/* BODY Y FUENTES */
+body {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(to bottom, #fff9e6, #ffe066);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  <!-- Texto principal arriba -->
-  <div class="header-box">
-    <p>Hoy, 21 de septiembre, te regalo flores amarillas para recordarte lo especial que eres; porque así como ellas anuncian alegría y nuevos comienzos, tú llenas de dulzura y ternura la vida de los que te rodean.</p>
-  </div>
+/* CUADRO DE TEXTO */
+.header-box {
+  margin-top: 30px;
+  background: #fffbea;
+  padding: 20px 25px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  max-width: 600px;
+  text-align: center;
+  font-size: 1.1em;
+}
 
-  <!-- Área central para flor grande -->
-  <div id="flower-area"></div>
+/* BOTÓN */
+button {
+  margin: 25px auto;
+  padding: 12px 30px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 12px;
+  background: #ffcc00;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+button:hover {
+  background: #ffd633;
+}
 
-  <!-- Botón de acción -->
-  <button id="startBtn">✨ Ver Sorpresa ✨</button>
+/* ÁREA FLOR */
+#flower-area {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  margin-top: 40px;
+}
 
-  <!-- JS -->
-  <script src="script.js"></script>
-</body>
-</html>
+/* FLORES PEQUEÑAS */
+.small-flower {
+  position: absolute;
+  font-size: 18px;
+  animation: fall 4s linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* FLOR GRANDE CENTRAL */
+.flower-large {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+}
+
+/* Pétalos */
+.flower-large .petal {
+  position: absolute;
+  width: 80px;
+  height: 120px;
+  background: #ffe066;
+  border-radius: 50% 50% 0 0;
+  transform-origin: bottom center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  opacity: 0;
+}
+
+/* Centro */
+.flower-large .center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70px;
+  height: 70px;
+  background: orange;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+  opacity: 0;
+}
+
+/* Hojas verdes */
+.flower-large .leaf {
+  position: absolute;
+  width: 40px;
+  height: 70px;
+  background: #66bb66;
+  border-radius: 20px 20px 0 0;
+  transform-origin: top center;
+  z-index: -1;
+  opacity: 0;
+}
+
+/* RESPONSIVO */
+@media (max-width: 480px) {
+  .flower-large { width: 150px; height: 150px; }
+  .flower-large .petal { width: 60px; height: 100px; }
+  .flower-large .center { width: 50px; height: 50px; }
+  .flower-large .leaf { width: 30px; height: 50px; }
+  .header-box { font-size: 1em; }
+  button { font-size: 1em; }
+}
