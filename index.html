@@ -1,210 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌼 Detalle de Flores Amarillas</title>
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #fff9e6, #ffe066);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  .flower-container {
-    text-align: center;
-    position: relative;
-  }
-
-  /* Flor */
-  .flower {
-    position: relative;
-    width: 220px;
-    height: 220px;
-    margin: 0 auto;
-    cursor: pointer;
-  }
-
-  .petal {
-    position: absolute;
-    width: 100px;
-    height: 140px;
-    background: #ffe066;
-    border-radius: 50% 50% 0 0;
-    transform-origin: bottom center;
-    transition: transform 0.5s ease, background 0.3s ease;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-  }
-
-  .petal:nth-child(1){ transform: rotate(0deg) translateY(-50px);}
-  .petal:nth-child(2){ transform: rotate(60deg) translateY(-50px);}
-  .petal:nth-child(3){ transform: rotate(120deg) translateY(-50px);}
-  .petal:nth-child(4){ transform: rotate(180deg) translateY(-50px);}
-  .petal:nth-child(5){ transform: rotate(240deg) translateY(-50px);}
-  .petal:nth-child(6){ transform: rotate(300deg) translateY(-50px);}
-
-  .flower:hover .petal {
-    transform: scale(1.1) rotate(var(--rotate));
-    background: #ffeb3b;
-  }
-
-  .center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 90px;
-    height: 90px;
-    background: orange;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 20px rgba(0,0,0,0.3) inset;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1);}
-    50% { transform: translate(-50%, -50%) scale(1.1);}
-  }
-
-  button {
-    margin-top: 20px;
-    padding: 12px 25px;
-    font-size: 1.1em;
-    border: none;
-    border-radius: 12px;
-    background: #ffcc00;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-
-  button:hover {
-    background: #ffd633;
-  }
-
-  /* Modal */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(2px);
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-
-  .modal-content {
-    background: #fffbea;
-    padding: 25px;
-    border-radius: 15px;
-    text-align: center;
-    font-size: 1.1em;
-    max-width: 450px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-  }
-
-  .close-btn {
-    margin-top: 15px;
-    padding: 8px 20px;
-    border: none;
-    border-radius: 8px;
-    background: #ffcc00;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-
-  .close-btn:hover {
-    background: #ffd633;
-  }
-
-  /* Confetti */
-  .confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background-color: #ffe066;
-    z-index: 1000;
-    pointer-events: none;
-    opacity: 0.9;
-    border-radius: 50%;
-    animation: fall 3s linear forwards;
-  }
-
-  @keyframes fall {
-    to {
-      transform: translateY(100vh) rotate(360deg);
-      opacity: 0;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .flower { width: 150px; height: 150px; }
-    .petal { width: 70px; height: 100px; }
-    .center { width: 60px; height: 60px; }
-    .modal-content { font-size: 1em; }
-  }
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌼 Detalle Profesional de Flor Amarilla</title>
+  <!-- Google Font elegante -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="flower-container">
-  <div class="flower" id="flower">
-    <div class="petal"></div>
-    <div class="petal"></div>
-    <div class="petal"></div>
-    <div class="petal"></div>
-    <div class="petal"></div>
-    <div class="petal"></div>
-    <div class="center"></div>
-  </div>
-  <button id="showMessage">✨ Ver Sorpresa ✨</button>
-</div>
-
-<div class="modal" id="modal">
-  <div class="modal-content">
+  <!-- Texto principal arriba -->
+  <div class="header-box">
     <p>Hoy, 21 de septiembre, te regalo flores amarillas para recordarte lo especial que eres; porque así como ellas anuncian alegría y nuevos comienzos, tú llenas de dulzura y ternura la vida de los que te rodean.</p>
-    <button class="close-btn" id="closeModal">Cerrar</button>
   </div>
-</div>
 
-<script>
-  const flower = document.getElementById('flower');
-  const modal = document.getElementById('modal');
-  const showBtn = document.getElementById('showMessage');
-  const closeBtn = document.getElementById('closeModal');
+  <!-- Área central para flor grande -->
+  <div id="flower-area"></div>
 
-  function createConfetti() {
-    for(let i=0;i<50;i++){
-      const confetti = document.createElement('div');
-      confetti.classList.add('confetti');
-      confetti.style.left = Math.random() * 100 + 'vw';
-      confetti.style.backgroundColor = ['#ffe066','#ffeb3b','#ffcc00','#ffd633'][Math.floor(Math.random()*4)];
-      confetti.style.width = confetti.style.height = (5+Math.random()*10)+'px';
-      document.body.appendChild(confetti);
-      setTimeout(()=> confetti.remove(), 3000);
-    }
-  }
+  <!-- Botón de acción -->
+  <button id="startBtn">✨ Ver Sorpresa ✨</button>
 
-  function showModal() {
-    modal.style.display = 'flex';
-    createConfetti();
-  }
-
-  flower.addEventListener('click', showModal);
-  showBtn.addEventListener('click', showModal);
-  closeBtn.addEventListener('click', () => modal.style.display = 'none');
-</script>
-
+  <!-- JS -->
+  <script src="script.js"></script>
 </body>
 </html>
