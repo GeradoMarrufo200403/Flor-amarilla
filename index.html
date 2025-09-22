@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🌼 Detalle Profesional de Flor Amarilla</title>
-  <!-- Fuente elegante -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un Regalo para Ti 💛</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+    
+    <canvas id="confetti-canvas"></canvas>
 
-  <!-- Texto principal arriba -->
-  <div class="header-box">
-    <p>Hoy, 21 de septiembre, te regalo flores amarillas para recordarte lo especial que eres; porque así como ellas anuncian alegría y nuevos comienzos, tú llenas de dulzura y ternura la vida de los que te rodean.</p>
-  </div>
+    <div class="container">
+        <button id="surpriseButton">Ver sorpresa</button>
 
-  <!-- Área central para flor grande -->
-  <div id="flower-area"></div>
+        <div id="surpriseContent" class="hidden">
+            <div class="message-box">
+                <p>Hoy, 21 de septiembre, te regalo flores amarillas para recordarte lo especial que eres; porque así como ellas anuncian alegría y nuevos comienzos, tú llenas de dulzura y ternura la vida de los que te rodean. ¡Nunca cambies, Estefania!</p>
+            </div>
+            <img src="FlowerYellow.webp" alt="Flor Amarilla" class="flower-image">
+        </div>
+    </div>
 
-  <!-- Botón de acción -->
-  <button id="startBtn">✨ Ver Sorpresa ✨</button>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
 
-  <script src="script.js"></script>
 </body>
 </html>
