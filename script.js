@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { confetti({ particleCount: 200, spread: 180, origin: { y: 0.6 } }); }, 1000);
     }
 
-    // Función para crear flores pequeñas
+    // Función para crear flores pequeñas (CON LÓGICA RESPONSIVA REFORZADA)
     function createSmallFlower() {
         const flower = document.createElement('img');
         flower.src = 'FlowerYellow.webp';
@@ -36,10 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const isMobile = window.innerWidth <= 480;
 
         if (isMobile) {
+            // Si es móvil, usamos valores para un footer de 80px
             flowerWidth = 40;
+            // En un footer de 80px, el pasto está entre 40px y 75px aprox.
             randomBottom = Math.random() * (75 - 40) + 40; 
         } else {
+            // Si es escritorio, usamos los valores originales para un footer de 100px
             flowerWidth = 50;
+            // En un footer de 100px, el pasto está entre 50px y 95px
             randomBottom = Math.random() * (95 - 50) + 50;
         }
         
@@ -60,11 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función que maneja la interacción con la flor principal
     function handleFlowerInteraction(event) {
-        // --- LÍNEA DE PRUEBA ---
-        // Esta alerta nos dirá si el toque está siendo detectado en el móvil.
-        alert("¡Toque detectado en móvil!"); 
-        // ----------------------
-
         event.preventDefault();
 
         mainFlower.classList.add('clicked');
