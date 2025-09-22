@@ -1,0 +1,105 @@
+/* BODY Y FUENTES */
+body {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(to bottom, #fff9e6, #ffe066);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* CUADRO DE TEXTO */
+.header-box {
+  margin-top: 30px;
+  background: #fffbea;
+  padding: 20px 25px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  max-width: 600px;
+  text-align: center;
+  font-size: 1.1em;
+}
+
+/* BOTÓN */
+button {
+  margin: 25px auto;
+  padding: 12px 30px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 12px;
+  background: #ffcc00;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+button:hover {
+  background: #ffd633;
+}
+
+/* ÁREA FLOR */
+#flower-area {
+  position: relative;
+  margin-top: 40px;
+  width: 300px;
+  height: 300px;
+}
+
+/* FLORES PEQUEÑAS */
+.small-flower {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: yellow;
+  animation: fall 4s linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* FLOR GRANDE */
+.flower-large {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-50%, -50%);
+}
+
+.flower-large .petal {
+  position: absolute;
+  width: 80px;
+  height: 120px;
+  background: #ffe066;
+  border-radius: 50% 50% 0 0;
+  transform-origin: bottom center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.flower-large .center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70px;
+  height: 70px;
+  background: orange;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+}
+
+.flower-large .leaf {
+  position: absolute;
+  width: 40px;
+  height: 70px;
+  background: #66bb66;
+  border-radius: 20px 20px 0 0;
+  transform-origin: top center;
+  z-index: -1;
+}
