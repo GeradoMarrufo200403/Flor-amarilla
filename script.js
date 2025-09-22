@@ -26,26 +26,21 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { confetti({ particleCount: 200, spread: 180, origin: { y: 0.6 } }); }, 1000);
     }
 
-    // Función para crear flores pequeñas (con lógica responsiva)
+    // --- LÓGICA COMPLETAMENTE REESCRITA Y SIMPLIFICADA ---
     function createSmallFlower() {
         const flower = document.createElement('img');
         flower.src = 'FlowerYellow.webp';
         flower.classList.add('small-flower');
 
-        let flowerWidth, randomBottom;
-        const isMobile = window.innerWidth <= 480;
-
-        if (isMobile) {
-            flowerWidth = 40;
-            randomBottom = Math.random() * (75 - 40) + 40; 
-        } else {
-            flowerWidth = 50;
-            randomBottom = Math.random() * (95 - 50) + 50;
-        }
+        // Ya no necesitamos comprobar si es móvil. Usamos porcentajes para que sea 100% responsivo.
+        // Posición horizontal aleatoria entre el 5% y 95% del ancho de la pantalla.
+        const randomXPercent = Math.random() * 90 + 5;
         
-        const randomX = Math.random() * (window.innerWidth - flowerWidth); 
-        flower.style.left = `${randomX}px`;
-        flower.style.bottom = `${randomBottom}px`;
+        // Altura aleatoria entre el 50% y 95% del contenedor. Esto las sitúa SIEMPRE en la franja verde del pasto.
+        const randomBottomPercent = Math.random() * (95 - 50) + 50;
+
+        flower.style.left = `${randomXPercent}%`;
+        flower.style.bottom = `${randomBottomPercent}%`;
 
         smallFlowersContainer.appendChild(flower);
     }
@@ -58,14 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
         partyTime();
     });
 
-    // --- CORRECCIÓN CLAVE PARA COMPATIBILIDAD MÓVIL ---
-    // 1. Creamos una función separada para manejar la interacción con la flor.
+    // Evento para la flor principal (con la lógica de contador y reinicio)
+    // Se ha simplificado para usar una sola función manejadora para ambos eventos
     function handleFlowerInteraction(event) {
-        // Prevenimos comportamientos extraños en móviles, como zoom o doble evento.
-        event.preventDefault();
+        event.preventDefault(); // Previene comportamientos extraños en móviles
 
         mainFlower.classList.add('clicked');
-
         flowerClickCounter++;
 
         if (flowerClickCounter > 10) {
@@ -83,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     }
 
-    // 2. Asignamos esa misma función a AMBOS eventos: 'click' (para escritorio) y 'touchstart' (para móviles).
     mainFlower.addEventListener('click', handleFlowerInteraction);
     mainFlower.addEventListener('touchstart', handleFlowerInteraction);
 });
